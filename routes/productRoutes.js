@@ -4,7 +4,10 @@ const productController = require('../controllers/productController');
 const upload = require('../middleware/upload');
 const Product = require('../models/Product'); 
 
+router.get('/search', productController.searchProducts);
+
 router.get('/', productController.getAllProducts);
+
 router.get('/:id', productController.getProduct);
 router.post('/', upload.fields([{ name: 'featuredImage', maxCount: 1 }, { name: 'images', maxCount: 5 }]), async (req, res) => {
   const { sku, quantity, name, description } = req.body;
@@ -48,7 +51,6 @@ router.put('/:id', upload.fields([{ name: 'featuredImage', maxCount: 1 }, { name
 
     res.json(updatedProduct);
   } catch (err) {
-    // Handle errors
     res.status(500).json({ error: err.message });
   }
 });
